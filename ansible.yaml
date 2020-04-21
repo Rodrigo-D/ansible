@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Create directory /root/nginxbkp
+    file:
+      path: /root/nginxbkp
+      owner: root
+      group: root
+      mode: 0644
+      state: directory
+  - name: Compress directory /etc/systemd/system into /root/nginxbkp/backupRodri.zip
+    archive:
+      path:
+        - /etc/systemd/system
+        - /root/tests
+      dest: /root/nginxbkp/backupRodri.zip
+      format: zip
+  - name: Add readme file
+    lineinfile:
+      path: /root/nginxbkp/README
+      line: "Este directorio se puede borrar si ha pasado un mes desde su ultima edicion"
+      state: present
+      create: yes
+
